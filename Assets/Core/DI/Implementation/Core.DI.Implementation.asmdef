@@ -1,0 +1,10 @@
+{
+	"name": "Core.DI.Implementation",
+	"references": [
+		"UniTask",
+		"Core.DI.Attributes",
+		"Core.DI.Log",
+		"Core.DI.Data",
+		"Core.Foundation.Declaration"
+	]
+}

@@ -1,0 +1,7 @@
+{
+  "name": "Core.DI.Data",
+  "references": [
+    "Core.Foundation.Declaration",
+    "UniTask"
+  ]
+}

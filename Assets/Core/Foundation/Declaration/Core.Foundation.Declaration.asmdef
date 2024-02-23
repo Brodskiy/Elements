@@ -1,0 +1,6 @@
+{
+  "name": "Core.Foundation.Declaration",
+  "references": [
+    "UniTask"
+  ]
+}

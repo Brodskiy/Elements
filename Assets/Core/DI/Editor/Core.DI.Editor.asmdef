@@ -1,0 +1,7 @@
+{
+  "name": "Core.DI.Editor",
+  "references": [
+    "Core.CodeGenerator.Implementation",
+    "Core.CodeGenerator.Data"
+  ]
+}

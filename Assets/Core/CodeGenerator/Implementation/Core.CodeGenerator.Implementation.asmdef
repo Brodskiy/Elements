@@ -1,0 +1,30 @@
+{
+  "name": "Core.CodeGenerator.Implementation",
+  "references": [
+    "Core.CodeGenerator.Data",
+    "UnityEditor.TestRunner",
+    "UnityEngine.TestRunner"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": true,
+  "precompiledReferences": [
+    "Microsoft.CodeAnalysis.CSharp.dll",
+    "Microsoft.CodeAnalysis.CSharp.Scripting.dll",
+    "Microsoft.CodeAnalysis.CSharp.Workspaces.dll",
+    "Microsoft.CodeAnalysis.dll",
+    "Microsoft.CodeAnalysis.Scripting.dll",
+    "Microsoft.CodeAnalysis.Workspaces.dll",
+    "Newtonsoft.Json.dll",
+    "System.Collections.Immutable.dll",
+    "System.Composition.AttributedModel.dll",
+    "System.Reflection.Metadata.dll"
+  ],
+  "autoReferenced": false,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
