@@ -4,10 +4,10 @@ using Core.Foundation.Declaration;
 using Core.PoolObject.Declaration;
 using Core.PoolObject.Implementation;
 using Cysharp.Threading.Tasks;
-using Modules.SpawnFactory.Declaration;
+using Modules.Gameplay.Scripts.SpawnFactory.Declaration;
 using UnityEngine;
 
-namespace Modules.SpawnFactory.Implementation
+namespace Modules.Gameplay.Scripts.SpawnFactory.Implementation
 {
     internal class SpawnFactoryService : ISpawnFactoryService, IInitialization, IDisposable
     {

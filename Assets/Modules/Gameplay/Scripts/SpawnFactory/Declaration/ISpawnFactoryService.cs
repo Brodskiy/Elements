@@ -3,7 +3,7 @@ using Core.PoolObject.Declaration;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace Modules.SpawnFactory.Declaration
+namespace Modules.Gameplay.Scripts.SpawnFactory.Declaration
 {
     public interface ISpawnFactoryService
     {

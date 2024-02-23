@@ -5,7 +5,7 @@ using Cysharp.Threading.Tasks;
 using Modules.Gameplay.Scripts.Balloon.Declaration;
 using Modules.Gameplay.Scripts.Data;
 using Modules.Gameplay.Scripts.GameElement.PoolObjects;
-using Modules.SpawnFactory.Declaration;
+using Modules.Gameplay.Scripts.SpawnFactory.Declaration;
 
 namespace Modules.Gameplay.Scripts.Balloon.Implementation
 {

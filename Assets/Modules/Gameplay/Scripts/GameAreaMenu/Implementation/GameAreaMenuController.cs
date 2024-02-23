@@ -1,8 +1,9 @@
 using Core.MVC.Implementation;
 using Modules.Gameplay.Scripts.Data;
+using Modules.Gameplay.Scripts.GameAreaMenu.Declaration;
 using UnityEngine.Events;
 
-namespace Modules.Gameplay.Scripts.GameAreaMenu
+namespace Modules.Gameplay.Scripts.GameAreaMenu.Implementation
 {
     internal class GameAreaMenuController : Controller<GameAreaMenuView>, IGameAreaMenu
     {

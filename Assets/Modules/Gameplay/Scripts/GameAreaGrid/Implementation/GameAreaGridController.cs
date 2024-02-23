@@ -9,8 +9,8 @@ using Modules.Gameplay.Scripts.Data;
 using Modules.Gameplay.Scripts.GameAreaGrid.Declaration;
 using Modules.Gameplay.Scripts.GameElement.Data.Block;
 using Modules.Gameplay.Scripts.GameElement.PoolObjects;
+using Modules.Gameplay.Scripts.SpawnFactory.Declaration;
 using Modules.Level.Declaration;
-using Modules.SpawnFactory.Declaration;
 using UnityEngine;
 
 namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation

@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine.Events;
 
-namespace Modules.Gameplay.Scripts.GameAreaMenu
+namespace Modules.Gameplay.Scripts.GameAreaMenu.Declaration
 {
     public interface IGameAreaMenu
     {

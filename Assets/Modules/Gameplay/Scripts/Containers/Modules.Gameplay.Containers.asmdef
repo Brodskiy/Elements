@@ -12,11 +12,13 @@
     "Modules.Gameplay.RootService",
     "Modules.Level.Implementation",
     "Modules.Level.Declaration",
-    "Modules.Gameplay.GameAreaMenu",
     "Modules.Gameplay.GameAreaGrid.Declaration",
     "Modules.Gameplay.GameAreaGrid.Implementation",
-    "Modules.Gameplay.ApplicationLifecycle",
     "Modules.Gameplay.Balloon.Implementation",
-    "Modules.Gameplay.Balloon.Declaration"
+    "Modules.Gameplay.Balloon.Declaration",
+    "Modules.Gameplay.ApplicationLifecycle.Implementation",
+    "Modules.Gameplay.GameAreaMenu.Implementation",
+    "Modules.Gameplay.ApplicationLifecycle.Declaration",
+    "Modules.Gameplay.GameAreaMenu.Declaration"
   ]
 }

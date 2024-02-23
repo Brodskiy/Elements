@@ -1,0 +1,10 @@
+{
+  "name": "Modules.Gameplay.GameAreaMenu.Implementation",
+  "references":[
+    "Core.MVC.Implementation",
+    "Modules.Gameplay.GameAreaMenu.Declaration",
+    "UniTask",
+    "Modules.Gameplay.Data",
+    "Core.Foundation.Declaration"
+  ]
+}

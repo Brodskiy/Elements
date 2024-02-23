@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Core.Foundation.Declaration;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -12,8 +11,6 @@ namespace Core.MVC.Implementation
     {
         protected abstract string ViewPrefabName { get; }
         protected TView View { get; private set; }
-        
-        private readonly List<IDisposable> _subscriptions = new List<IDisposable>();
 
         public UniTask InitializeAsync()
         {
@@ -38,7 +35,6 @@ namespace Core.MVC.Implementation
 
         public void Dispose()
         {
-            _subscriptions.ForEach(item => item.Dispose());
             View.Dispose();
         }
 

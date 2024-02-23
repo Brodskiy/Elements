@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace Modules.Gameplay.Scripts.GameAreaMenu
+namespace Modules.Gameplay.Scripts.GameAreaMenu.Implementation
 {
     internal class GameAreaMenuView : View
     {
