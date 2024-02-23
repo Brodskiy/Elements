@@ -1,0 +1,12 @@
+{
+  "name": "Modules.Level.Implementation",
+  "references":[
+    "Modules.Level.Declaration",
+    "Core.Foundation.Declaration",
+    "Core.DI.Attributes",
+    "Core.DataStorage.Declaration",
+    "UniTask",
+    "Modules.Level.Data",
+    "Modules.Extensions"
+  ]
+}

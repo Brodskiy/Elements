@@ -1,0 +1,4 @@
+{
+  "name": "Modules.Level.Data",
+  "references":[ "Modules.Gameplay.Data" ]
+}
