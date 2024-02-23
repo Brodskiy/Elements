@@ -1,0 +1,17 @@
+{
+  "name": "Modules.Gameplay.RootService",
+  "references":[
+    "Core.Foundation.Declaration",
+    "UniTask",
+    "Core.DI.Attributes",
+    "Modules.SpawnFactory.Declaration",
+    "Modules.Gameplay.GameElement.PoolObjects",
+    "Modules.Gameplay.Data",
+    "Core.MVC.Implementation",
+    "Core.PoolObject.Declaration",
+    "Modules.Gameplay.GameAreaMenu",
+    "Modules.Gameplay.GameAreaGrid.Implementation",
+    "Modules.Gameplay.GameAreaGrid.Declaration",
+    "Modules.Gameplay.ApplicationLifecycle",
+    "Modules.Level.Declaration"]
+}

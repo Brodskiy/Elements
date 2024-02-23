@@ -1,0 +1,73 @@
+using System;
+using Core.MVC.Implementation;
+using Core.Swipe.Scripts.Data;
+using Core.Swipe.Scripts.Implementation;
+using Cysharp.Threading.Tasks;
+using Modules.Gameplay.Scripts.GameAreaGrid.Data;
+using Modules.Gameplay.Scripts.GameElement.PoolObjects;
+using UnityEngine;
+
+namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
+{
+    internal class GameAreaGridView : View
+    {
+        private const float YOffset = 2.8f;
+        private const float XOffset = 0.25f;
+        private const float HalfElementSize = 0.7f;
+        
+        public event Action<Direction> SwipeEnded;
+        
+        [SerializeField]
+        private SwipeDetector _swipeDetector;
+        [SerializeField]
+        private Transform _blocksContainer;
+
+        public Transform BlocksContainer => _blocksContainer;
+
+        private GridCellData[,] _gridElements;
+
+        protected override UniTask ShowViewAsync()
+        {
+            _swipeDetector.SwipeEnded += SwipeEnded;
+            return UniTask.CompletedTask;
+        }
+        
+        protected override UniTask HideViewAsync()
+        {
+            _swipeDetector.SwipeEnded -= SwipeEnded;
+            return UniTask.CompletedTask;
+        }
+        
+        public void InitializeGrid(int[,] levelData)
+        {
+            var columns = levelData.GetLength(0);
+            var rows = levelData.GetLength(1);
+            _blocksContainer.localPosition = new Vector3(-columns * XOffset, -YOffset);
+            _gridElements = new GridCellData[columns, rows];
+
+            for (var column = 0; column < columns; column++)
+            {
+                for (var row = 0; row < rows; row++)
+                {
+                    var posX = HalfElementSize * column;
+                    var posY = HalfElementSize * row;
+
+                    _gridElements[column, row] = new GridCellData(
+                        new Vector2Int(column, row),
+                        new Vector3(posX, posY, 0), 
+                        column + row);
+                }
+            }
+        }
+
+        public GridCellData GetGridCellData(Vector2Int cellPosition)
+        {
+            return _gridElements[cellPosition.x, cellPosition.y];
+        }
+
+        public async UniTask ArrangeBlockAsync(BlockItemPoolObject currentBlock, Vector2Int newGridPosition)
+        {
+            await currentBlock.ArrangeAsync(_gridElements[newGridPosition.x, newGridPosition.y]);
+        }
+    }
+}

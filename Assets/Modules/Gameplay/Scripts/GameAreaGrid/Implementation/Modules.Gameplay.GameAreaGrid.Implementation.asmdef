@@ -1,0 +1,21 @@
+{
+  "name": "Modules.Gameplay.GameAreaGrid.Implementation",
+  "references":[
+    "Core.MVC.Implementation",
+    "Modules.Gameplay.Data",
+    "Modules.Swipe.Implementation",
+    "Modules.Gameplay.GameElement.Data.Block",
+    "Core.DI.Attributes",
+    "Modules.Level.Declaration",
+    "Modules.SpawnFactory.Declaration",
+    "Modules.Swipes.Data",
+    "UniTask",
+    "Modules.Gameplay.GameElement.PoolObjects",
+    "Core.PoolObject.Declaration",
+    "Modules.Gameplay.GameAreaGrid.Data",
+    "Modules.Gameplay.GameAreaMenu",
+    "Modules.Gameplay.GameAreaGrid.Declaration",
+    "Core.Foundation.Declaration",
+    "Modules.Extensions"
+  ]
+}

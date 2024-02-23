@@ -1,0 +1,7 @@
+{
+  "name": "Modules.Gameplay.ApplicationLifecycle",
+  "references":[
+    "Core.Foundation.Declaration",
+    "UniTask"
+  ]
+}

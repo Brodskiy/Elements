@@ -1,0 +1,8 @@
+{
+  "name": "Modules.Gameplay.GameElement.PoolObjects",
+  "references":[
+    "Core.PoolObject.Declaration",
+    "UniTask",
+    "Modules.Gameplay.GameAreaGrid.Data"
+  ]
+}

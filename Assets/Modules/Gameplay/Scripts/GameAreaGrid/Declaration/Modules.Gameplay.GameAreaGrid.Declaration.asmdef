@@ -1,0 +1,4 @@
+{
+  "name": "Modules.Gameplay.GameAreaGrid.Declaration",
+  "references": ["UniTask"]
+}
