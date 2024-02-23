@@ -1,0 +1,7 @@
+{
+  "name": "Modules.Swipe.Implementation",
+  "references": [
+    "Modules.Swipe.Extensions",
+    "Modules.Swipes.Data"
+  ]
+}

@@ -1,0 +1,4 @@
+{
+  "name": "Modules.Swipe.Extensions",
+  "references": ["Modules.Swipes.Data"]
+}
