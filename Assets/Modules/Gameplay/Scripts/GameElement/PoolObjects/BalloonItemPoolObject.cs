@@ -54,7 +54,7 @@ namespace Modules.Gameplay.Scripts.GameElement.PoolObjects
         private bool IsVisibleFromCamera()
         {
             var screenPoint = _mainCamera.WorldToViewportPoint(transform.position);
-            return screenPoint.x < 1.1; // && screenPoint.y is > 0 and < 1;
+            return screenPoint.x < 1.1;
         }
     }
 }

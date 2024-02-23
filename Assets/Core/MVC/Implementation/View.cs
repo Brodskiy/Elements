@@ -8,19 +8,19 @@ namespace Core.MVC.Implementation
     {
         public virtual void Dispose(){}
 
-        public async UniTask ShowAsync()
+        public UniTask ShowAsync()
         {
             gameObject.SetActive(true);
-            await ShowViewAsync();
+            return DoShowAsync();
         }
 
-        public async UniTask HideAsync()
+        public UniTask HideAsync()
         {
             gameObject.SetActive(false);
-            await HideViewAsync();
+            return DoHideAsync();
         }
         
-        protected abstract UniTask ShowViewAsync();
-        protected abstract UniTask HideViewAsync();
+        protected abstract UniTask DoShowAsync();
+        protected abstract UniTask DoHideAsync();
     }
 }

@@ -1,5 +1,4 @@
 using Core.MVC.Implementation;
-using Cysharp.Threading.Tasks;
 using Modules.Gameplay.Scripts.Data;
 using UnityEngine.Events;
 
@@ -12,25 +11,16 @@ namespace Modules.Gameplay.Scripts.GameAreaMenu
 
         protected override string ViewPrefabName => AssetResources.GameAreaMenuPrefabPath;
 
-        protected override UniTask InitializeControllerAsync()
-        {
-            return UniTask.CompletedTask;
-        }
-
-        protected override UniTask ShowViewAsync()
+        protected override void DoShow()
         {
             View.RestartButtonClicked += RestartButtonClicked;
             View.NextButtonClicked += NextButtonClicked;
-            
-            return UniTask.CompletedTask;
         }
 
-        protected override UniTask HideViewAsync()
+        protected override void DoHide()
         {
             View.RestartButtonClicked -= RestartButtonClicked;
             View.NextButtonClicked -= NextButtonClicked;
-            
-            return UniTask.CompletedTask;
         }
     }
 }

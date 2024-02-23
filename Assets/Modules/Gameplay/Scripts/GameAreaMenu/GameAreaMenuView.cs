@@ -18,21 +18,21 @@ namespace Modules.Gameplay.Scripts.GameAreaMenu
         [SerializeField]
         private Button _buttonRestart;
 
-        protected override async UniTask ShowViewAsync()
+        protected override UniTask DoShowAsync()
         {
             _canvas.worldCamera = Camera.main;
             _buttonNext.onClick.AddListener(NextButtonClicked);
             _buttonRestart.onClick.AddListener(RestartButtonClicked);
 
-            await UniTask.CompletedTask;
+            return UniTask.CompletedTask;
         }
         
-        protected override async UniTask HideViewAsync()
+        protected override UniTask DoHideAsync()
         {
             _buttonNext.onClick.RemoveListener(NextButtonClicked);
             _buttonRestart.onClick.RemoveListener(RestartButtonClicked);
             
-            await UniTask.CompletedTask;
+            return UniTask.CompletedTask;
         }
     }
 }

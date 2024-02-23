@@ -7,9 +7,9 @@ namespace Core.Swipe.Scripts.Implementation
 {
     public class SwipeDetector : MonoBehaviour
     {
-        private const float MinSwipeMagnitude = 100;
-
         public event Action<Direction> SwipeEnded;
+        
+        [SerializeField] private float _minSwipeMagnitude = 100;
 
         private bool _isTouch;
         private Vector2 _startPosition;
@@ -36,7 +36,7 @@ namespace Core.Swipe.Scripts.Implementation
         private void OnSwipeEnded(Vector2 startPosition, Vector2 finishPosition)
         {
             var swipeDirection = finishPosition - startPosition;
-            if (swipeDirection.magnitude < MinSwipeMagnitude)
+            if (swipeDirection.magnitude < _minSwipeMagnitude)
             {
                 return;
             }

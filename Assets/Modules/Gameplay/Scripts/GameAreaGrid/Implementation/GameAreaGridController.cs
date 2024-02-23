@@ -38,7 +38,7 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource?.Dispose();
             DestroyAllBlocks();
-            ShowViewAsync().Forget();
+            CreateGameArea();
         }
 
         public void ShowNextLevel()
@@ -47,18 +47,22 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
             _cancellationTokenSource?.Dispose();
             DestroyAllBlocks();
             _levelService.NextLevel();
-            ShowViewAsync().Forget();
+            CreateGameArea();
         }
-
-        protected override UniTask InitializeControllerAsync()
+        
+        protected override void DoShow()
         {
             _blocksContainer = Resources.Load<BlocksContainer>(AssetResources.BlocksContainerPath);
             View.SwipeEnded += SwipeEnded;
-
-            return UniTask.CompletedTask;
+            CreateGameArea();
         }
 
-        protected override UniTask ShowViewAsync()
+        protected override void DoHide()
+        {
+            View.SwipeEnded -= SwipeEnded;
+        }
+
+        private void CreateGameArea()
         {
             _cancellationTokenSource = new CancellationTokenSource();
             _currentLevel = _levelService.CurrentLevel;
@@ -78,14 +82,6 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
                     InitializeBlock(column, row);
                 }
             }
-
-            return UniTask.CompletedTask;
-        }
-
-        protected override UniTask HideViewAsync()
-        {
-            View.SwipeEnded -= SwipeEnded;
-            return UniTask.CompletedTask;
         }
 
         private void InitializeBlock(int column, int row)

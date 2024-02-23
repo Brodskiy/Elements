@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Core.Foundation.Declaration;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -10,37 +11,38 @@ namespace Core.MVC.Implementation
         where TView : View
     {
         protected abstract string ViewPrefabName { get; }
-
         protected TView View { get; private set; }
+        
+        private readonly List<IDisposable> _subscriptions = new List<IDisposable>();
 
-        public async UniTask InitializeAsync()
+        public UniTask InitializeAsync()
         {
             var viewPref = Resources.Load<TView>(ViewPrefabName);
             View = Object.Instantiate(viewPref);
             View.name = viewPref.name;
-            
-            await InitializeControllerAsync();
+
+            return UniTask.CompletedTask;
         }
 
-        public async UniTask ShowAsync()
+        public UniTask ShowAsync()
         {
-            await ShowViewAsync();
-            await View.ShowAsync();
+            DoShow();
+            return View.ShowAsync();
         }
-        
-        public async UniTask HideAsync()
+
+        public UniTask HideAsync()
         {
-            await HideViewAsync();
-            await View.HideAsync();
+            DoHide();
+            return View.HideAsync();
         }
 
         public void Dispose()
         {
+            _subscriptions.ForEach(item => item.Dispose());
             View.Dispose();
         }
 
-        protected abstract UniTask InitializeControllerAsync();
-        protected abstract UniTask ShowViewAsync();
-        protected abstract UniTask HideViewAsync();
+        protected abstract void DoShow();
+        protected abstract void DoHide();
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Core.DI.Attributes;
 using Core.Foundation.Declaration;
 using Cysharp.Threading.Tasks;
@@ -30,7 +31,7 @@ namespace Modules.Gameplay.Scripts.RootService
         {
             await SpawnPoolObjectsAsync();
             SubscribeToEvents();
-            ShowViews();
+            await ShowViewsAsync();
         }
         
         public void Dispose()
@@ -40,19 +41,22 @@ namespace Modules.Gameplay.Scripts.RootService
             _applicationLifecycle.ApplicationQuit -= ApplicationQuit;
         }
 
-        private async UniTask SpawnPoolObjectsAsync()
+        private UniTask SpawnPoolObjectsAsync()
         {
             var balloonBluePrefab = Resources.Load<BalloonItemPoolObject>(AssetResources.BalloonBluePrefabPath);
             var balloonOrangePrefab = Resources.Load<BalloonItemPoolObject>(AssetResources.BalloonOrangePrefabPath);
             var blockPrefab = Resources.Load<BlockItemPoolObject>(AssetResources.BlockPrefabPath);
-            
-            await _spawnFactoryService.SpawnAsync(balloonBluePrefab, SettingConstants.BalloonDefaultPoolObjectSize);
-            await _spawnFactoryService.SpawnAsync(balloonOrangePrefab, SettingConstants.BalloonDefaultPoolObjectSize);
-            
-            await _spawnFactoryService.SpawnAsync(
-                blockPrefab,
-                _gameAreaGrid.ContainerForBlocks,
-                SettingConstants.BlocksDefaultPoolObjectSize);
+            var tasks = new List<UniTask>
+            {
+                _spawnFactoryService.SpawnAsync(balloonBluePrefab, SettingConstants.BalloonDefaultPoolObjectSize),
+                _spawnFactoryService.SpawnAsync(balloonOrangePrefab, SettingConstants.BalloonDefaultPoolObjectSize),
+                _spawnFactoryService.SpawnAsync(
+                    blockPrefab,
+                    _gameAreaGrid.ContainerForBlocks,
+                    SettingConstants.BlocksDefaultPoolObjectSize)
+            };
+
+            return UniTask.WhenAll(tasks);
         }
 
         private void SubscribeToEvents()
@@ -62,10 +66,14 @@ namespace Modules.Gameplay.Scripts.RootService
             _applicationLifecycle.ApplicationQuit += ApplicationQuit;
         }
 
-        private void ShowViews()
+        private UniTask ShowViewsAsync()
         {
-            _gameAreaMenu.ShowAsync().Forget();
-            _gameAreaGrid.ShowAsync().Forget();
+            var tasks = new List<UniTask>
+            {
+                _gameAreaMenu.ShowAsync(),
+                _gameAreaGrid.ShowAsync()
+            };
+            return UniTask.WhenAll(tasks);
         }
 
         private void OnNextButtonClicked()

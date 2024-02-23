@@ -26,13 +26,13 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
 
         private GridCellData[,] _gridElements;
 
-        protected override UniTask ShowViewAsync()
+        protected override UniTask DoShowAsync()
         {
             _swipeDetector.SwipeEnded += SwipeEnded;
             return UniTask.CompletedTask;
         }
         
-        protected override UniTask HideViewAsync()
+        protected override UniTask DoHideAsync()
         {
             _swipeDetector.SwipeEnded -= SwipeEnded;
             return UniTask.CompletedTask;
@@ -65,9 +65,9 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
             return _gridElements[cellPosition.x, cellPosition.y];
         }
 
-        public async UniTask ArrangeBlockAsync(BlockItemPoolObject currentBlock, Vector2Int newGridPosition)
+        public UniTask ArrangeBlockAsync(BlockItemPoolObject currentBlock, Vector2Int newGridPosition)
         {
-            await currentBlock.ArrangeAsync(_gridElements[newGridPosition.x, newGridPosition.y]);
+            return currentBlock.ArrangeAsync(_gridElements[newGridPosition.x, newGridPosition.y]);
         }
     }
 }

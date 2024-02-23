@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Core.Swipe.Scripts.Extensions
 {
-    public static class DirectionExtension
+    internal static class DirectionExtension
     {
         public static Vector2Int ToVector2Int(this Direction direction)
         {

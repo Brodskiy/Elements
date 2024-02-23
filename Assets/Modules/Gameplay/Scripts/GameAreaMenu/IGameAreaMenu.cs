@@ -9,6 +9,5 @@ namespace Modules.Gameplay.Scripts.GameAreaMenu
         public event UnityAction NextButtonClicked;
         
         UniTask ShowAsync();
-        UniTask HideAsync();
     }
 }

@@ -8,7 +8,7 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Data
         public readonly Vector3 Position;
         public readonly int Layer;
 
-        public GridCellData(Vector2Int gridPosition, Vector3 position, int layer)
+        internal GridCellData(Vector2Int gridPosition, Vector3 position, int layer)
         {
             GridPosition = gridPosition;
             Position = position;

@@ -10,8 +10,6 @@ namespace Modules.Gameplay.Scripts.ApplicationLifecycle.Implementation
     {
         private const string ObjectName = "ApplicationLifeCycleDetector";
         public event Action ApplicationQuit;
-        public event Action<bool> ApplicationPause;
-        public event Action<bool> ApplicationFocus;
 
         private ApplicationLifeCycleDetector _applicationLifeCycleDetector;
  
@@ -20,8 +18,6 @@ namespace Modules.Gameplay.Scripts.ApplicationLifecycle.Implementation
             var lifeCycleDetector = new GameObject(ObjectName, typeof(ApplicationLifeCycleDetector));
             _applicationLifeCycleDetector = lifeCycleDetector.GetComponent<ApplicationLifeCycleDetector>();
             _applicationLifeCycleDetector.ApplicationQuit += OnApplicationQuit;
-            _applicationLifeCycleDetector.ApplicationPause += OnApplicationPause;
-            _applicationLifeCycleDetector.ApplicationFocus += OnApplicationFocus;
 
             return UniTask.CompletedTask;
         }
@@ -29,23 +25,11 @@ namespace Modules.Gameplay.Scripts.ApplicationLifecycle.Implementation
         public void Dispose()
         {
             _applicationLifeCycleDetector.ApplicationQuit -= OnApplicationQuit;
-            _applicationLifeCycleDetector.ApplicationPause -= OnApplicationPause;
-            _applicationLifeCycleDetector.ApplicationFocus -= OnApplicationFocus;
         }
 
         private void OnApplicationQuit()
         {
             ApplicationQuit?.Invoke();
-        }
-        
-        private void OnApplicationPause(bool isPaused)
-        {
-            ApplicationPause?.Invoke(isPaused);
-        }
-        
-        private void OnApplicationFocus(bool isFocus)
-        {
-            ApplicationFocus?.Invoke(isFocus);
         }
     }
 }

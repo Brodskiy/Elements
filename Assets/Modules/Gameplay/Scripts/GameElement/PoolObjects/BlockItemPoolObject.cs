@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using Core.Extensions;
 using Core.PoolObject.Declaration;
 using Cysharp.Threading.Tasks;
 using Modules.Gameplay.Scripts.GameAreaGrid.Data;
@@ -11,11 +12,10 @@ namespace Modules.Gameplay.Scripts.GameElement.PoolObjects
 {
     public class BlockItemPoolObject : ItemPoolObject
     {
-        private const int MillisecondsPerSecond = 1000;
         private const int Speed = 5;
         private const float DistanceDelta = 0.01f;
         private const string StartAnimation = "Idle";
-        private const string DestroyAnimation = "Destroy";
+        private const int DestroyAnimationIndex = 1;
 
         public event Action<BlockItemPoolObject> MouseDown;
 
@@ -56,22 +56,19 @@ namespace Modules.Gameplay.Scripts.GameElement.PoolObjects
             _isMove = Vector3.Distance(transform.localPosition, _newCellPosition) > DistanceDelta;
         }
 
-        public async UniTask ArrangeAsync(GridCellData gridCellData)
+        public UniTask ArrangeAsync(GridCellData gridCellData)
         {
             _newCellPosition = gridCellData.Position;
             _spriteRenderer.sortingOrder = gridCellData.Layer;
             CellPosition = gridCellData.GridPosition;
             _isMove = true;
 
-            await UniTask.WaitUntil(() => _isMove == false);
+            return UniTask.WaitUntil(() => _isMove == false);
         }
 
         public async UniTask Deactivate(CancellationTokenSource cancellationTokenSource)
         {
-            _animator.Play(DestroyAnimation);
-            var animationDuration = _animator.runtimeAnimatorController.animationClips[1].averageDuration;
-            await UniTask.Delay((int)(animationDuration * MillisecondsPerSecond),
-                cancellationToken: cancellationTokenSource.Token);
+            await _animator.PlayAsync(DestroyAnimationIndex, cancellationTokenSource.Token);
 
             _animator.runtimeAnimatorController = null;
             _spriteRenderer.sprite = null;

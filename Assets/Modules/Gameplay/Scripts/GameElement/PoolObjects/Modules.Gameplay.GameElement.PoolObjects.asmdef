@@ -3,6 +3,7 @@
   "references":[
     "Core.PoolObject.Declaration",
     "UniTask",
-    "Modules.Gameplay.GameAreaGrid.Data"
+    "Modules.Gameplay.GameAreaGrid.Data",
+    "Core.Extensions"
   ]
 }
