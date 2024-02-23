@@ -1,0 +1,8 @@
+{
+  "name": "Core.PoolObject.Implementation",
+  "references": [
+    "Core.PoolObject.Declaration",
+    "UniTask",
+    "Core.Foundation.Declaration"
+  ]
+}
