@@ -1,0 +1,6 @@
+{
+  "name": "Core.MVC.Implementation",
+  "references":[
+    "UniTask",
+    "Core.Foundation.Declaration"]
+}
