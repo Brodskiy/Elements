@@ -1,0 +1,6 @@
+{
+  "name": "Modules.SpawnFactory.Declaration",
+  "references":[
+    "Core.PoolObject.Declaration",
+    "UniTask"]
+}
