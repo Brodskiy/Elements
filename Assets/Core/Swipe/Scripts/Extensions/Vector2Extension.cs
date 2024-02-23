@@ -5,7 +5,7 @@ namespace Core.Swipe.Scripts.Extensions
 {
     internal static class Vector2Extension
     {
-        public static Direction Vector2ToDirection(this ref Vector2 vector)
+        public static Direction ToDirection(this ref Vector2 vector)
         {
             if (Mathf.Abs(vector.x) > Mathf.Abs(vector.y))
             {

@@ -16,6 +16,7 @@
     "Modules.Gameplay.GameAreaMenu",
     "Modules.Gameplay.GameAreaGrid.Declaration",
     "Core.Foundation.Declaration",
-    "Modules.Extensions"
+    "Modules.Extensions",
+    "Modules.Swipe.Extensions"
   ]
 }

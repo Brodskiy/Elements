@@ -41,7 +41,7 @@ namespace Core.Swipe.Scripts.Implementation
                 return;
             }
             
-            SwipeEnded?.Invoke(swipeDirection.Vector2ToDirection());
+            SwipeEnded?.Invoke(swipeDirection.ToDirection());
         }
     }
 }
