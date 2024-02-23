@@ -1,0 +1,9 @@
+{
+  "name": "Core.DataStorage.Implementation",
+  "references":[
+    "Core.DataStorage.Declaration",
+    "UniTask",
+    "Core.Foundation.Declaration",
+    "Core.DataStorage.Data",
+    "Core.DataStorage.Log"]
+}

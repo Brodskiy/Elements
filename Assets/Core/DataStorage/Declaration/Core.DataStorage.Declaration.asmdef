@@ -1,0 +1,6 @@
+{
+  "name": "Core.DataStorage.Declaration",
+  "references":[
+    "Core.DataStorage.Data",
+    "Core.Foundation.Declaration"]
+}
