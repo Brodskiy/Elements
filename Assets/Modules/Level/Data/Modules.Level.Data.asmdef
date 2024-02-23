@@ -1,4 +1,4 @@
 {
   "name": "Modules.Level.Data",
-  "references":[ "Modules.Gameplay.Data" ]
+  "references":[ "Modules.Gameplay.Data", "Modules.Gameplay.GameElement.Data.Block" ]
 }

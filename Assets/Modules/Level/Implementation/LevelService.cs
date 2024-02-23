@@ -31,7 +31,7 @@ namespace Modules.Level.Implementation
             var levelData = _levelContainer.GetLevelByIndex(_currentLevelIndex);
             CurrentLevel = _dataStorage.TryLoad<int[]>(LevelStateDataKey, out var levelState)
                 ? levelState.ToTwoDimensionalArray(levelData.Columns, levelData.Rows)
-                : levelData.PlacementData.ToTwoDimensionalArray(levelData.Columns, levelData.Rows);
+                : levelData.BlockDatas.ToTwoDimensionalArray(levelData.Columns, levelData.Rows);
 
             await UniTask.CompletedTask;
         }
@@ -71,7 +71,7 @@ namespace Modules.Level.Implementation
         {
             
             var levelData = _levelContainer.GetLevelByIndex(_currentLevelIndex);
-            CurrentLevel = levelData.PlacementData.ToTwoDimensionalArray(levelData.Columns, levelData.Rows);
+            CurrentLevel = levelData.BlockDatas.ToTwoDimensionalArray(levelData.Columns, levelData.Rows);
             _dataStorage.Delete(LevelStateDataKey);
         }
     }

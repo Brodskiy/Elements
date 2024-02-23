@@ -1,11 +1,10 @@
-using System;
 using UnityEditor.Animations;
 using UnityEngine;
 
 namespace Modules.Gameplay.Scripts.GameElement.Data.Block
 {
-    [Serializable]
-    public class BlockData
+    [CreateAssetMenu(fileName = "Block", menuName = "ScriptableObjects/Blocks")]
+    public class BlockData : ScriptableObject
     {
         [SerializeField]
         private int _id;

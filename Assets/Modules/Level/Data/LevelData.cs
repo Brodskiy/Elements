@@ -1,4 +1,5 @@
 using System;
+using Modules.Gameplay.Scripts.GameElement.Data.Block;
 using UnityEngine;
 
 namespace Modules.Level.Data
@@ -16,11 +17,11 @@ namespace Modules.Level.Data
         private int _rows;
         [Header("Enter an array of values starting at the\n lower left corner and moving upward.")]
         [SerializeField]
-        private int[] _placementData;
+        private BlockData[] _blockDatas;
 
         public int LevelIndex => _level;
         public int Columns => _columns;
         public int Rows => _rows;
-        public int[] PlacementData => _placementData;
+        public BlockData[] BlockDatas => _blockDatas;
     }
 }

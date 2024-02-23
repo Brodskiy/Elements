@@ -7,6 +7,7 @@
     "Core.DataStorage.Declaration",
     "UniTask",
     "Modules.Level.Data",
-    "Modules.Extensions"
+    "Modules.Extensions",
+    "Modules.Gameplay.GameElement.Data.Block"
   ]
 }

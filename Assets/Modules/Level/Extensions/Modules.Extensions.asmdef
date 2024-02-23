@@ -1,3 +1,4 @@
 {
-  "name": "Modules.Extensions"
+  "name": "Modules.Extensions",
+  "references":[ "GUID:d7fa6fb8270a4e08b4f50893a7215e39" ]
 }

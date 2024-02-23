@@ -16,12 +16,66 @@ MonoBehaviour:
   - _level: 1
     _columns: 5
     _rows: 2
-    _placementData: 01000000010000000000000000000000010000000200000002000000000000000200000000000000
+    _blockDatas:
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 11400000, guid: 5beb312da8146493fb9a15751abfa2ff, type: 2}
+    - {fileID: 11400000, guid: 5beb312da8146493fb9a15751abfa2ff, type: 2}
+    - {fileID: 0}
+    - {fileID: 11400000, guid: 5beb312da8146493fb9a15751abfa2ff, type: 2}
+    - {fileID: 0}
   - _level: 2
     _columns: 4
     _rows: 5
-    _placementData: 0100000001000000020000000100000001000000020000000200000001000000020000000100000001000000010000000200000001000000000000000100000001000000020000000100000000000000
+    _blockDatas:
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 11400000, guid: 5beb312da8146493fb9a15751abfa2ff, type: 2}
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 11400000, guid: 5beb312da8146493fb9a15751abfa2ff, type: 2}
+    - {fileID: 11400000, guid: 5beb312da8146493fb9a15751abfa2ff, type: 2}
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 11400000, guid: 5beb312da8146493fb9a15751abfa2ff, type: 2}
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 11400000, guid: 5beb312da8146493fb9a15751abfa2ff, type: 2}
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 0}
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 11400000, guid: 5beb312da8146493fb9a15751abfa2ff, type: 2}
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 0}
   - _level: 3
     _columns: 4
     _rows: 6
-    _placementData: 010000000100000002000000010000000100000000000000020000000200000001000000010000000200000001000000010000000100000002000000000000000000000000000000010000000100000002000000010000000000000000000000
+    _blockDatas:
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 11400000, guid: 5beb312da8146493fb9a15751abfa2ff, type: 2}
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 0}
+    - {fileID: 11400000, guid: 5beb312da8146493fb9a15751abfa2ff, type: 2}
+    - {fileID: 11400000, guid: 5beb312da8146493fb9a15751abfa2ff, type: 2}
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 11400000, guid: 5beb312da8146493fb9a15751abfa2ff, type: 2}
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 11400000, guid: 5beb312da8146493fb9a15751abfa2ff, type: 2}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 11400000, guid: 5beb312da8146493fb9a15751abfa2ff, type: 2}
+    - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
+    - {fileID: 0}
+    - {fileID: 0}

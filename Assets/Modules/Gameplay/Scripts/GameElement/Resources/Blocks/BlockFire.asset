@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7f0ebc5bb1c4fa387eb07c7df7589f0, type: 3}
-  m_Name: BlocksContainer
+  m_Script: {fileID: 11500000, guid: 875cfc2d271c47e39e194a0e42db6d83, type: 3}
+  m_Name: BlockFire
   m_EditorClassIdentifier: 
-  _blockDatas:
-  - {fileID: 11400000, guid: 4f5d4701288954cd1a50e6eb27aecca7, type: 2}
-  - {fileID: 11400000, guid: 5beb312da8146493fb9a15751abfa2ff, type: 2}
+  _id: 2
+  _animatorController: {fileID: 9100000, guid: 577b179af3a044534816841bbadc2e7f, type: 2}
