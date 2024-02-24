@@ -6,7 +6,6 @@ using Cysharp.Threading.Tasks;
 using Modules.Gameplay.Scripts.ApplicationLifecycle.Declaration;
 using Modules.Gameplay.Scripts.Data;
 using Modules.Gameplay.Scripts.GameAreaGrid.Declaration;
-using Modules.Gameplay.Scripts.GameAreaMenu;
 using Modules.Gameplay.Scripts.GameAreaMenu.Declaration;
 using Modules.Gameplay.Scripts.GameElement.PoolObjects;
 using Modules.Gameplay.Scripts.SpawnFactory.Declaration;
@@ -34,7 +33,7 @@ namespace Modules.Gameplay.Scripts.RootService
             SubscribeToEvents();
             await ShowViewsAsync();
         }
-        
+
         public void Dispose()
         {
             _gameAreaMenu.NextButtonClicked -= OnNextButtonClicked;
@@ -87,7 +86,7 @@ namespace Modules.Gameplay.Scripts.RootService
             _levelService.Reset();
             _gameAreaGrid.RestartLevel();
         }
-        
+
         private void ApplicationQuit()
         {
             _levelService.Save();

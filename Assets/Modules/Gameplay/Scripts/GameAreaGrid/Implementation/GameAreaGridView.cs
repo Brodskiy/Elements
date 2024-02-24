@@ -14,9 +14,9 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
         private const float YOffset = 2.8f;
         private const float XOffset = 0.25f;
         private const float HalfElementSize = 0.7f;
-        
+
         public event Action<Direction> SwipeEnded;
-        
+
         [SerializeField]
         private SwipeDetector _swipeDetector;
         [SerializeField]
@@ -31,13 +31,13 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
             _swipeDetector.SwipeEnded += SwipeEnded;
             return UniTask.CompletedTask;
         }
-        
+
         protected override UniTask DoHideAsync()
         {
             _swipeDetector.SwipeEnded -= SwipeEnded;
             return UniTask.CompletedTask;
         }
-        
+
         public void InitializeGrid(int[,] levelData)
         {
             var columns = levelData.GetLength(0);

@@ -3,12 +3,12 @@ using Core.DataStorage.Declaration;
 using Core.DI.Attributes;
 using Core.Foundation.Declaration;
 using Cysharp.Threading.Tasks;
-using Modules.Level.Data;
+using Modules.Gameplay.Scripts.Level.Data;
+using Modules.Gameplay.Scripts.Level.Extensions;
 using Modules.Level.Declaration;
-using Modules.Level.Extensions;
 using UnityEngine;
 
-namespace Modules.Level.Implementation
+namespace Modules.Gameplay.Scripts.Level.Implementation
 {
     internal class LevelService : ILevelService, IInitialization, IDisposable
     {
@@ -18,7 +18,7 @@ namespace Modules.Level.Implementation
 
         [Inject]
         private readonly IDataStorage _dataStorage;
-        
+
         public int[,] CurrentLevel { get; private set; }
 
         private LevelContainer _levelContainer;
@@ -35,7 +35,7 @@ namespace Modules.Level.Implementation
 
             await UniTask.CompletedTask;
         }
-        
+
         public void Dispose()
         {
             CurrentLevel = null;
@@ -46,7 +46,7 @@ namespace Modules.Level.Implementation
         {
             CurrentLevel = currentLevel;
         }
-        
+
         public void NextLevel()
         {
             if (_currentLevelIndex >= _levelContainer.LevelsCount)
@@ -57,7 +57,7 @@ namespace Modules.Level.Implementation
             {
                 _currentLevelIndex++;
             }
-            
+
             Reset();
         }
 
@@ -69,7 +69,6 @@ namespace Modules.Level.Implementation
 
         public void Reset()
         {
-            
             var levelData = _levelContainer.GetLevelByIndex(_currentLevelIndex);
             CurrentLevel = levelData.BlockDatas.ToTwoDimensionalArray(levelData.Columns, levelData.Rows);
             _dataStorage.Delete(LevelStateDataKey);

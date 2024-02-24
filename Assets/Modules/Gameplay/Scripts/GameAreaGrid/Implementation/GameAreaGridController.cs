@@ -157,6 +157,7 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
 
             await ChangeBlocksPositionAsync(_pressedBlock, newGridPosition);
             _pressedBlock = null;
+
             await CheckBlocksPositionsAsync(cancellationTokenSource);
             _levelService.UpdateCurrentLevel(_currentLevel);
         }
@@ -252,7 +253,6 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
             });
             _spawnFactoryService.Destroy(_alteredBlocks);
 
-
             CheckWin();
             await CheckBlocksPositionsAsync(cancellationTokenSource);
         }
@@ -275,7 +275,7 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
 
             ShowNextLevel();
         }
-        
+
         private void DestroyAllBlocks()
         {
             var columns = _blocksGrid.Blocks.GetLength(0);

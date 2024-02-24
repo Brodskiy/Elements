@@ -6,7 +6,7 @@ namespace Core.CodeGenerator.Implementation
 {
     public class CodeBuilder
     {
-        private static readonly Dictionary<BuilderType, BuilderBase> Builders = new Dictionary<BuilderType, BuilderBase>
+        private static readonly Dictionary<BuilderType, BuilderBase> Builders = new()
         {
             {BuilderType.Interface, new InterfaceBuilder()},
             {BuilderType.Class, new ClassBuilder()},

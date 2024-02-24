@@ -13,9 +13,9 @@ namespace Modules.Gameplay.Scripts.SpawnFactory.Implementation
     {
         private readonly Dictionary<Type, IPoolObject<ItemPoolObject>> _poolObjects = new();
 
-        public async UniTask InitializeAsync()
+        public UniTask InitializeAsync()
         {
-            await UniTask.CompletedTask;
+            return UniTask.CompletedTask;
         }
 
         public void Dispose()
@@ -23,18 +23,18 @@ namespace Modules.Gameplay.Scripts.SpawnFactory.Implementation
             _poolObjects.Clear();
         }
 
-        public async UniTask SpawnAsync<TItemPoolObject>(TItemPoolObject prefab, int countOfInstance)
+        public UniTask SpawnAsync<TItemPoolObject>(TItemPoolObject prefab, int countOfInstance)
             where TItemPoolObject : ItemPoolObject
         {
             var parent = new GameObject
             {
                 name = $"{prefab.name}Parent"
             };
-            
-            await SpawnAsync(prefab, parent.transform, countOfInstance);
+
+            return SpawnAsync(prefab, parent.transform, countOfInstance);
         }
         
-        public async UniTask SpawnAsync<TItemPoolObject>(TItemPoolObject prefab, Transform parent, int countOfInstance)
+        public UniTask SpawnAsync<TItemPoolObject>(TItemPoolObject prefab, Transform parent, int countOfInstance)
             where TItemPoolObject : ItemPoolObject
         {
             try
@@ -43,13 +43,12 @@ namespace Modules.Gameplay.Scripts.SpawnFactory.Implementation
                 {
                     _poolObjects.TryGetValue(typeof(TItemPoolObject), out var poolObject);
                     poolObject?.Add(prefab);
-                    return;
+                    return UniTask.CompletedTask;
                 }
-                
+
                 var newPoolObject = new PoolObject<TItemPoolObject>(prefab, countOfInstance, parent.transform);
-                await newPoolObject.InitializeAsync();
-                
                 _poolObjects.Add(typeof(TItemPoolObject), newPoolObject);
+                return newPoolObject.InitializeAsync();
             }
             catch (Exception e)
             {
@@ -75,7 +74,7 @@ namespace Modules.Gameplay.Scripts.SpawnFactory.Implementation
             {
                 return;
             }
-            
+
             poolObject.Destruct(itemPoolObject);
         }
 
@@ -85,7 +84,7 @@ namespace Modules.Gameplay.Scripts.SpawnFactory.Implementation
             {
                 return;
             }
-            
+
             poolObject.Destruct(itemsPoolObject);
         }
 

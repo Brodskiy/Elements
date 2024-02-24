@@ -19,28 +19,16 @@ namespace Modules.Gameplay.Scripts.GameElement.PoolObjects
 
         public event Action<BlockItemPoolObject> MouseDown;
 
-        [SerializeField] private SpriteRenderer _spriteRenderer;
-        [SerializeField] private Animator _animator;
+        [SerializeField]
+        private SpriteRenderer _spriteRenderer;
+        [SerializeField]
+        private Animator _animator;
 
         public int Id { get; private set; }
         public Vector2Int CellPosition { get; private set; }
 
         private Vector3 _newCellPosition;
         private bool _isMove;
-
-        public void ShowAnimation(AnimatorController animatorController)
-        {
-            _animator.runtimeAnimatorController = animatorController;
-            _animator.Play(StartAnimation, 0, Random.Range(0, 1f));
-        }
-
-        public void Initialize(GridCellData gridCellData, int blockId)
-        {
-            Id = blockId;
-            transform.localPosition = gridCellData.Position;
-            _spriteRenderer.sortingOrder = gridCellData.Layer;
-            CellPosition = gridCellData.GridPosition;
-        }
 
         private void Update()
         {
@@ -54,6 +42,20 @@ namespace Modules.Gameplay.Scripts.GameElement.PoolObjects
                 _newCellPosition,
                 Speed * Time.deltaTime);
             _isMove = Vector3.Distance(transform.localPosition, _newCellPosition) > DistanceDelta;
+        }
+
+        public void ShowAnimation(AnimatorController animatorController)
+        {
+            _animator.runtimeAnimatorController = animatorController;
+            _animator.Play(StartAnimation, 0, Random.Range(0, 1f));
+        }
+
+        public void Initialize(GridCellData gridCellData, int blockId)
+        {
+            Id = blockId;
+            transform.localPosition = gridCellData.Position;
+            _spriteRenderer.sortingOrder = gridCellData.Layer;
+            CellPosition = gridCellData.GridPosition;
         }
 
         public UniTask ArrangeAsync(GridCellData gridCellData)

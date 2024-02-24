@@ -10,7 +10,7 @@ namespace Modules.Gameplay.Scripts.GameAreaMenu.Implementation
     {
         public event UnityAction RestartButtonClicked;
         public event UnityAction NextButtonClicked;
-        
+
         [SerializeField]
         private Canvas _canvas;
         [SerializeField]
@@ -26,7 +26,7 @@ namespace Modules.Gameplay.Scripts.GameAreaMenu.Implementation
 
             return UniTask.CompletedTask;
         }
-        
+
         protected override UniTask DoHideAsync()
         {
             _buttonNext.onClick.RemoveListener(NextButtonClicked);

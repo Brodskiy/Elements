@@ -2,7 +2,7 @@ using System;
 using Modules.Gameplay.Scripts.GameElement.Data.Block;
 using UnityEngine;
 
-namespace Modules.Level.Data
+namespace Modules.Gameplay.Scripts.Level.Data
 {
     [Serializable]
     internal class LevelData

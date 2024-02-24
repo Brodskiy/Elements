@@ -1,6 +1,6 @@
 using Modules.Gameplay.Scripts.GameElement.Data.Block;
 
-namespace Modules.Level.Extensions
+namespace Modules.Gameplay.Scripts.Level.Extensions
 {
     internal static class ArrayExtension
     {
@@ -18,7 +18,7 @@ namespace Modules.Level.Extensions
 
             return twoDimensionalArray;
         }
-        
+
         public static int[,] ToTwoDimensionalArray(this BlockData[] blockDatas, int columns, int rows)
         {
             var twoDimensionalArray = new int[columns, rows];

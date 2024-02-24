@@ -31,14 +31,14 @@ namespace Core.PoolObject.Implementation
             _inactiveObjectsContainer = CreateContainer(inactiveContainerName, parent);
         }
 
-        public async UniTask InitializeAsync()
+        public UniTask InitializeAsync()
         {
             for (var i = 0; i < _defaultInstancesCount; i++)
             {
                 CreateInstance();
             }
 
-            await UniTask.CompletedTask;
+            return UniTask.CompletedTask;
         }
 
         public void Add(ItemPoolObject prefab)

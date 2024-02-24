@@ -8,7 +8,7 @@ namespace Modules.Gameplay.Scripts.GameElement.PoolObjects
     public class BalloonItemPoolObject : ItemPoolObject
     {
         public event Action<BalloonItemPoolObject> OutForBoard;
-        
+
         private float _speed;
         private float _amplitude;
         private float _frequency;
@@ -19,20 +19,6 @@ namespace Modules.Gameplay.Scripts.GameElement.PoolObjects
         private void Awake()
         {
             _mainCamera = Camera.main;
-        }
-
-        public void StartFly()
-        {
-            _speed = Random.Range(0.3f, 1.5f);
-            _startingY = Random.Range(0, 3f);
-            _rotationAmount = Random.Range(2f, 10f);
-            _amplitude = Random.Range(0.6f, 1.5f);
-            _frequency = Random.Range(1f, 2f);
-            
-            var initialPosition = transform.position;
-            initialPosition.x = -_mainCamera.orthographicSize * _mainCamera.aspect - 0.5f;
-            initialPosition.y = _startingY;
-            transform.position = initialPosition;
         }
 
         private void Update()
@@ -50,7 +36,21 @@ namespace Modules.Gameplay.Scripts.GameElement.PoolObjects
             
             OutForBoard?.Invoke(this);
         }
-        
+
+        public void StartFly()
+        {
+            _speed = Random.Range(0.3f, 1.5f);
+            _startingY = Random.Range(0, 3f);
+            _rotationAmount = Random.Range(2f, 10f);
+            _amplitude = Random.Range(0.6f, 1.5f);
+            _frequency = Random.Range(1f, 2f);
+            
+            var initialPosition = transform.position;
+            initialPosition.x = -_mainCamera.orthographicSize * _mainCamera.aspect - 0.5f;
+            initialPosition.y = _startingY;
+            transform.position = initialPosition;
+        }
+
         private bool IsVisibleFromCamera()
         {
             var screenPoint = _mainCamera.WorldToViewportPoint(transform.position);
