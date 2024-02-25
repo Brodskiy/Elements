@@ -31,6 +31,7 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
         private BlockItemPoolObject _pressedBlock;
         private List<BlockItemPoolObject> _alteredBlocks;
         private CancellationTokenSource _cancellationTokenSource;
+        private bool _isDestroyBlocksStarted;
 
         public void RestartLevel()
         {
@@ -152,6 +153,11 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
             await ChangeBlocksPositionAsync(_pressedBlock, newGridPosition, cancellationTokenSource);
 
             _pressedBlock = null;
+            
+            if (_isDestroyBlocksStarted)
+            {
+                return;
+            }
 
             await CheckBlocksPositionsAsync(cancellationTokenSource);
 
@@ -181,8 +187,10 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
 
         private async UniTask CheckBlocksPositionsAsync(CancellationTokenSource cancellationTokenSource)
         {
-            await MoveBlocksDownAsync(cancellationTokenSource);
+            _isDestroyBlocksStarted = true;
+            await MoveBlocksDownAsync(cancellationTokenSource); 
             await DestroyBlocksAsync(cancellationTokenSource);
+            _isDestroyBlocksStarted = false;
         }
 
         private async UniTask MoveBlocksDownAsync(CancellationTokenSource cancellationTokenSource)
@@ -247,6 +255,7 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
             _cancellationTokenSource?.Dispose();
             _alteredBlocks?.ForEach(block => block.StopAnimation());
             _alteredBlocks?.Clear();
+            _isDestroyBlocksStarted = false;
 
             var activeBlocks = _blocksGrid.GetAllActiveBlocks();
             foreach (var block in activeBlocks)
