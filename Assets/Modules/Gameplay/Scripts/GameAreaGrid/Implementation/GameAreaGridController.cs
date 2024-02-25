@@ -26,30 +26,25 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
 
         protected override string ViewPrefabName => AssetResources.GameAreaGridPrefabPath;
 
-        private int[,] _currentLevel;
+        private BlocksGrid _blocksGrid;
         private BlocksContainer _blocksContainer;
         private BlockItemPoolObject _pressedBlock;
         private List<BlockItemPoolObject> _alteredBlocks;
         private CancellationTokenSource _cancellationTokenSource;
-        private BlocksGrid _blocksGrid;
 
         public void RestartLevel()
         {
-            _cancellationTokenSource?.Cancel();
-            _cancellationTokenSource?.Dispose();
             DestroyAllBlocks();
             CreateGameArea();
         }
 
         public void ShowNextLevel()
         {
-            _cancellationTokenSource?.Cancel();
-            _cancellationTokenSource?.Dispose();
             DestroyAllBlocks();
             _levelService.NextLevel();
             CreateGameArea();
         }
-        
+
         protected override void DoShow()
         {
             _blocksContainer = Resources.Load<BlocksContainer>(AssetResources.BlocksContainerPath);
@@ -65,48 +60,48 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
         private void CreateGameArea()
         {
             _cancellationTokenSource = new CancellationTokenSource();
-            _currentLevel = _levelService.CurrentLevel;
-            View.InitializeGrid(_currentLevel);
-            var columns = _currentLevel.GetLength(0);
-            var rows = _currentLevel.GetLength(1);
-            _blocksGrid = new BlocksGrid(new Vector2Int(columns, rows));
+            var currentLevel = _levelService.CurrentLevel;
+            View.InitializeGrid(currentLevel);
+            var columns = currentLevel.GetLength(0);
+            var rows = currentLevel.GetLength(1);
+            _blocksGrid = new BlocksGrid(columns, rows);
             for (var column = 0; column < columns; column++)
             {
                 for (var row = 0; row < rows; row++)
                 {
-                    if (_currentLevel[column, row] == 0)
+                    if (currentLevel[column, row] == 0)
                     {
                         continue;
                     }
 
-                    InitializeBlock(column, row);
+                    InitializeBlock(column, row, currentLevel[column, row]);
                 }
             }
         }
 
-        private void InitializeBlock(int column, int row)
+        private void InitializeBlock(int column, int row, int blockId)
         {
-            var block = GetInitializedBlock(_currentLevel[column, row]);
+            var block = GetInitializedBlock(blockId);
             if (block == null)
             {
-                Debug.LogError($"Block with BlockId - {_currentLevel[column, row]} equal null.");
+                Debug.LogError($"Block with BlockId - {blockId} equal null.");
                 return;
             }
 
-            block.Initialize(View.GetGridCellData(new Vector2Int(column, row)), _currentLevel[column, row]);
+            block.Initialize(View.GetGridCellData(column, row), blockId);
             _blocksGrid.AddBlock(block);
         }
 
-        private BlockItemPoolObject GetInitializedBlock(int blockIndex)
+        private BlockItemPoolObject GetInitializedBlock(int blockId)
         {
             var block = _spawnFactoryService.Get<BlockItemPoolObject>();
-            var blockAnimator = _blocksContainer.GetBlockAnimatorById(blockIndex);
+            var blockAnimator = _blocksContainer.GetBlockAnimatorById(blockId);
             if (block == null || blockAnimator == null)
             {
                 return null;
             }
 
-            block.ShowAnimation(blockAnimator);
+            block.PlayAnimation(blockAnimator);
             block.MouseDown += OnMouseDown;
             return block;
         }
@@ -126,8 +121,7 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
             ChangeBlockPositionAsync(swipeDirection, _cancellationTokenSource).Forget();
         }
 
-        private async UniTask ChangeBlockPositionAsync(Direction swipeDirection,
-            CancellationTokenSource cancellationTokenSource)
+        private async UniTask ChangeBlockPositionAsync(Direction swipeDirection, CancellationTokenSource cancellationTokenSource)
         {
             if (CheckContainsAlteredBlock(_pressedBlock))
             {
@@ -136,13 +130,13 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
             }
 
             var newGridPosition = _pressedBlock.CellPosition + swipeDirection.ToVector2Int();
-            if (!IsLevelBoundsCheckPassed(newGridPosition))
+            if (!_blocksGrid.IncludedInGrid(newGridPosition.x, newGridPosition.y))
             {
                 _pressedBlock = null;
                 return;
             }
 
-            var changeableBlock = _blocksGrid.Blocks[newGridPosition.x, newGridPosition.y];
+            var changeableBlock = _blocksGrid.GetBlockByCellPosition(newGridPosition.x, newGridPosition.y);
             if (swipeDirection == Direction.Up && changeableBlock == null)
             {
                 _pressedBlock = null;
@@ -155,11 +149,13 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
                 return;
             }
 
-            await ChangeBlocksPositionAsync(_pressedBlock, newGridPosition);
+            await ChangeBlocksPositionAsync(_pressedBlock, newGridPosition, cancellationTokenSource);
+
             _pressedBlock = null;
 
             await CheckBlocksPositionsAsync(cancellationTokenSource);
-            _levelService.UpdateCurrentLevel(_currentLevel);
+
+            _levelService.UpdateCurrentLevel(_blocksGrid.GetLevelState());
         }
 
         private bool CheckContainsAlteredBlock(BlockItemPoolObject block)
@@ -167,28 +163,29 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
             return _alteredBlocks != null && _alteredBlocks.Contains(block);
         }
 
-        private async UniTask ChangeBlocksPositionAsync(BlockItemPoolObject block, Vector2Int newCell)
+        private UniTask ChangeBlocksPositionAsync(BlockItemPoolObject block, Vector2Int newCell, CancellationTokenSource cancellationTokenSource)
         {
             var oldCellPosition = block.CellPosition;
+            var сhangeableBlock = _blocksGrid.GetBlockByCellPosition(newCell.x, newCell.y);
+            _blocksGrid.SwapBlocks(block, newCell);
+            var tasks = new List<UniTask>();
 
-            ChangeBlockPosition(block, newCell);
-
-            var changeableBlock = _blocksGrid.Blocks[block.CellPosition.x, block.CellPosition.y];
-            if (changeableBlock != null)
+            if (сhangeableBlock != null)
             {
-                View.ArrangeBlockAsync(changeableBlock, oldCellPosition).Forget();
+                tasks.Add(View.ArrangeBlockAsync(сhangeableBlock, oldCellPosition, cancellationTokenSource));
             }
 
-            await View.ArrangeBlockAsync(block, newCell);
+            tasks.Add(View.ArrangeBlockAsync(block, newCell, cancellationTokenSource));
+            return UniTask.WhenAll(tasks);
         }
 
         private async UniTask CheckBlocksPositionsAsync(CancellationTokenSource cancellationTokenSource)
         {
-            await MoveBlocksDownAsync();
+            await MoveBlocksDownAsync(cancellationTokenSource);
             await DestroyBlocksAsync(cancellationTokenSource);
         }
 
-        private async UniTask MoveBlocksDownAsync()
+        private async UniTask MoveBlocksDownAsync(CancellationTokenSource cancellationTokenSource)
         {
             while (true)
             {
@@ -198,33 +195,16 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
                     break;
                 }
 
-                var tasks = new List<UniTask>();
+                var tasks = new List<UniTask>(_alteredBlocks.Count);
                 foreach (var block in _alteredBlocks)
                 {
                     var newPosition = block.CellPosition + Vector2Int.down;
-                    ChangeBlockPosition(block, newPosition);
-                    tasks.Add(View.ArrangeBlockAsync(block, newPosition));
+                    _blocksGrid.SwapBlocks(block, newPosition);
+                    tasks.Add(View.ArrangeBlockAsync(block, newPosition, cancellationTokenSource));
                 }
 
                 await UniTask.WhenAll(tasks);
             }
-        }
-
-        private void ChangeBlockPosition(BlockItemPoolObject block, Vector2Int newPosition)
-        {
-            var сhangeableBlock = _blocksGrid.Blocks[newPosition.x, newPosition.y];
-            _currentLevel[block.CellPosition.x, block.CellPosition.y] = сhangeableBlock == null ? 0 : сhangeableBlock.Id;
-            _currentLevel[newPosition.x, newPosition.y] = block.Id;
-            _blocksGrid.Blocks[block.CellPosition.x, block.CellPosition.y] = сhangeableBlock;
-            _blocksGrid.Blocks[newPosition.x, newPosition.y] = block;
-        }
-
-        private bool IsLevelBoundsCheckPassed(Vector2Int gridPosition)
-        {
-            return gridPosition.x >= 0 &&
-                   gridPosition.x < _currentLevel.GetLength(0) &&
-                   gridPosition.y >= 0 &&
-                   gridPosition.y < _currentLevel.GetLength(1);
         }
 
         private async UniTask DestroyBlocksAsync(CancellationTokenSource cancellationTokenSource)
@@ -240,37 +220,22 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
             _alteredBlocks.ForEach(block =>
             {
                 block.MouseDown -= OnMouseDown;
-                var destroyUniTask = block.Deactivate(cancellationTokenSource);
-                destroyTasks.Add(destroyUniTask);
+                destroyTasks.Add(block.Deactivate(cancellationTokenSource));
             });
 
             await UniTask.WhenAll(destroyTasks);
 
-            _alteredBlocks.ForEach(block =>
-            {
-                _blocksGrid.Blocks[block.CellPosition.x, block.CellPosition.y] = null;
-                _currentLevel[block.CellPosition.x, block.CellPosition.y] = 0;
-            });
+            _alteredBlocks.ForEach(block => _blocksGrid.RemoveBlock(block));
             _spawnFactoryService.Destroy(_alteredBlocks);
-
             CheckWin();
             await CheckBlocksPositionsAsync(cancellationTokenSource);
         }
 
         private void CheckWin()
         {
-            var columns = _blocksGrid.Blocks.GetLength(0);
-            var rows = _blocksGrid.Blocks.GetLength(1);
-
-            for (var column = 0; column < columns; column++)
+            if (!_blocksGrid.IsBlocksGridEmpty())
             {
-                for (var row = 0; row < rows; row++)
-                {
-                    if (_blocksGrid.Blocks[column, row] != null)
-                    {
-                        return;
-                    }
-                }
+                return;
             }
 
             ShowNextLevel();
@@ -278,21 +243,16 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
 
         private void DestroyAllBlocks()
         {
-            var columns = _blocksGrid.Blocks.GetLength(0);
-            var rows = _blocksGrid.Blocks.GetLength(1);
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource?.Dispose();
+            _alteredBlocks?.ForEach(block => block.StopAnimation());
+            _alteredBlocks?.Clear();
 
-            for (var column = 0; column < columns; column++)
+            var activeBlocks = _blocksGrid.GetAllActiveBlocks();
+            foreach (var block in activeBlocks)
             {
-                for (var row = 0; row < rows; row++)
-                {
-                    if (_blocksGrid.Blocks[column, row] == null)
-                    {
-                        continue;
-                    }
-
-                    _spawnFactoryService.Destroy(_blocksGrid.Blocks[column, row]);
-                    _blocksGrid.Blocks[column, row] = null;
-                }
+                _spawnFactoryService.Destroy(block);
+                _blocksGrid.RemoveBlock(block);
             }
         }
     }

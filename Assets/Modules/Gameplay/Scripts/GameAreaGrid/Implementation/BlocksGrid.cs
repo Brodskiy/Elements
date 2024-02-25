@@ -6,20 +6,19 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
 {
     internal class BlocksGrid
     {
-        public BlockItemPoolObject[,] Blocks { get; }
-
+        private readonly BlockItemPoolObject[,] _blocksGrid;
         private List<BlockItemPoolObject> _alteredBlocks;
 
-        public BlocksGrid(Vector2Int arraySize)
+        public BlocksGrid(int columns, int rows)
         {
-            Blocks = new BlockItemPoolObject[arraySize.x, arraySize.y];
+            _blocksGrid = new BlockItemPoolObject[columns, rows];
         }
 
         public void AddBlock(BlockItemPoolObject block)
         {
-            Blocks[block.CellPosition.x, block.CellPosition.y] = block;
+            _blocksGrid[block.CellPosition.x, block.CellPosition.y] = block;
         }
-        
+
         public List<BlockItemPoolObject> GetDestructibleBlocks()
         {
             _alteredBlocks = new List<BlockItemPoolObject>();
@@ -29,13 +28,13 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
 
             return _alteredBlocks;
         }
-        
+
         public List<BlockItemPoolObject> GetFallenBlocks()
         {
             _alteredBlocks = new List<BlockItemPoolObject>();
-            for (var colum = 0; colum < Blocks.GetLength(0); colum++)
+            for (var colum = 0; colum < _blocksGrid.GetLength(0); colum++)
             {
-                for (var row = 1; row < Blocks.GetLength(1); row++)
+                for (var row = 1; row < _blocksGrid.GetLength(1); row++)
                 {
                     AddToFallenBlockList(colum, row);
                 }
@@ -43,32 +42,106 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
 
             return _alteredBlocks;
         }
-        
+
+        public BlockItemPoolObject GetBlockByCellPosition(int cellX, int cellY)
+        {
+            return _blocksGrid[cellX, cellY];
+        }
+
+        public void SwapBlocks(BlockItemPoolObject block, Vector2Int сhangeableBlockPosition)
+        {
+            var сhangeableBlock = _blocksGrid[сhangeableBlockPosition.x, сhangeableBlockPosition.y];
+            _blocksGrid[block.CellPosition.x, block.CellPosition.y] = сhangeableBlock;
+            _blocksGrid[сhangeableBlockPosition.x, сhangeableBlockPosition.y] = block;
+        }
+
+        public bool IsBlocksGridEmpty()
+        {
+            return GetAllActiveBlocks().Count <= 0;
+        }
+
+        public IList<BlockItemPoolObject> GetAllActiveBlocks()
+        {
+            var activeBlocks = new List<BlockItemPoolObject>();
+            var columns = _blocksGrid.GetLength(0);
+            var rows = _blocksGrid.GetLength(1);
+
+            for (var column = 0; column < columns; column++)
+            {
+                for (var row = 0; row < rows; row++)
+                {
+                    if (_blocksGrid[column, row] == null)
+                    {
+                        continue;
+                    }
+
+                    activeBlocks.Add(_blocksGrid[column, row]);
+                }
+            }
+
+            return activeBlocks;
+        }
+
+        public bool IncludedInGrid(int cellX, int cellY)
+        {
+            return cellX >= 0 && cellX < _blocksGrid.GetLength(0) &&
+                   cellY >= 0 && cellY < _blocksGrid.GetLength(1);
+        }
+
+        public void RemoveBlock(BlockItemPoolObject block)
+        {
+            _blocksGrid[block.CellPosition.x, block.CellPosition.y] = null;
+        }
+
+        public int[,] GetLevelState()
+        {
+            var columns = _blocksGrid.GetLength(0);
+            var rows = _blocksGrid.GetLength(1);
+            var levelData = new int[columns, rows];
+
+            for (var colum = 0; colum < columns; colum++)
+            {
+                for (var row = 0; row < rows; row++)
+                {
+                    levelData[colum, row] = _blocksGrid[colum, row] == null ? 0 : _blocksGrid[colum, row].Id;
+                }
+            }
+
+            return levelData;
+        }
+
         private void LinesDestroyChecker(Vector2Int prePositionOffset, Vector2Int nextPositionOffset)
         {
-            for (var colum = 0; colum < Blocks.GetLength(0); colum++)
+            var columns = _blocksGrid.GetLength(0);
+            var rows = _blocksGrid.GetLength(1);
+            for (var colum = 0; colum < columns; colum++)
             {
-                for (var row = 0; row < Blocks.GetLength(1); row++)
+                for (var row = 0; row < rows; row++)
                 {
-                    if (Blocks[colum, row] == null)
-                    {
-                        continue;
-                    }
-
-                    if (_alteredBlocks.Contains(Blocks[colum, row]))
-                    {
-                        continue;
-                    }
-
-                    var block = Blocks[colum, row];
-                    FindDestructibleBlocks(
-                        block.CellPosition + prePositionOffset,
-                        block.CellPosition + nextPositionOffset,
-                        block);
+                    LineDestroyCheck(prePositionOffset, nextPositionOffset, colum, row);
                 }
             }
         }
-        
+
+        private void LineDestroyCheck(Vector2Int prePositionOffset, Vector2Int nextPositionOffset, int colum, int row)
+        {
+            if (_blocksGrid[colum, row] == null)
+            {
+                return;
+            }
+
+            if (_alteredBlocks.Contains(_blocksGrid[colum, row]))
+            {
+                return;
+            }
+
+            var block = _blocksGrid[colum, row];
+            FindDestructibleBlocks(
+                preCell: block.CellPosition + prePositionOffset,
+                nextCell: block.CellPosition + nextPositionOffset,
+                block);
+        }
+
         private void FindDestructibleBlocks(Vector2Int preCell, Vector2Int nextCell, BlockItemPoolObject block)
         {
             if (!FindDestructibleBlocks(block, preCell))
@@ -82,11 +155,11 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
                 return;
             }
 
-            AddToDestroyBlocks(Blocks[preCell.x, preCell.y]);
+            AddToDestroyBlocks(_blocksGrid[preCell.x, preCell.y]);
             AddToDestroyBlocks(block);
-            AddToDestroyBlocks(Blocks[nextCell.x, nextCell.y]);
+            AddToDestroyBlocks(_blocksGrid[nextCell.x, nextCell.y]);
         }
-        
+
         private bool FindDestructibleBlocks(BlockItemPoolObject block, Vector2Int cellChecked)
         {
             if (!IsLevelBoundsCheckPassed(cellChecked))
@@ -94,7 +167,7 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
                 return false;
             }
 
-            var blockChecked = Blocks[cellChecked.x, cellChecked.y];
+            var blockChecked = _blocksGrid[cellChecked.x, cellChecked.y];
             if (blockChecked == null)
             {
                 return false;
@@ -105,14 +178,14 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
                 return false;
             }
 
-            if (_alteredBlocks.Contains(Blocks[cellChecked.x, cellChecked.y]))
+            if (_alteredBlocks.Contains(_blocksGrid[cellChecked.x, cellChecked.y]))
             {
                 AddToDestroyBlocks(block);
             }
 
             return true;
         }
-        
+
         private void AddToDestroyBlocks(BlockItemPoolObject blockItem)
         {
             if (_alteredBlocks.Contains(blockItem))
@@ -122,41 +195,41 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
 
             _alteredBlocks.Add(blockItem);
         }
-        
+
         private void AddToFallenBlockList(int cellX, int cellY)
         {
-            if (Blocks[cellX, cellY] == null)
+            if (_blocksGrid[cellX, cellY] == null)
             {
                 return;
             }
 
-            var bottomCell = Blocks[cellX, cellY].CellPosition + Vector2Int.down;
+            var bottomCell = _blocksGrid[cellX, cellY].CellPosition + Vector2Int.down;
 
             if (!IsLevelBoundsCheckPassed(bottomCell))
             {
                 return;
             }
 
-            if (_alteredBlocks.Contains(Blocks[bottomCell.x, bottomCell.y]))
+            if (_alteredBlocks.Contains(_blocksGrid[bottomCell.x, bottomCell.y]))
             {
-                _alteredBlocks.Add(Blocks[cellX, cellY]);
+                _alteredBlocks.Add(_blocksGrid[cellX, cellY]);
                 return;
             }
 
-            if (Blocks[bottomCell.x, bottomCell.y] != null)
+            if (_blocksGrid[bottomCell.x, bottomCell.y] != null)
             {
                 return;
             }
 
-            _alteredBlocks.Add(Blocks[cellX, cellY]);
+            _alteredBlocks.Add(_blocksGrid[cellX, cellY]);
         }
-        
+
         private bool IsLevelBoundsCheckPassed(Vector2Int gridPosition)
         {
             return gridPosition.x >= 0 &&
-                   gridPosition.x < Blocks.GetLength(0) &&
+                   gridPosition.x < _blocksGrid.GetLength(0) &&
                    gridPosition.y >= 0 &&
-                   gridPosition.y < Blocks.GetLength(1);
+                   gridPosition.y < _blocksGrid.GetLength(1);
         }
     }
 }

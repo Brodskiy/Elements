@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Core.MVC.Implementation;
 using Core.Swipe.Scripts.Data;
 using Core.Swipe.Scripts.Implementation;
@@ -49,25 +50,33 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
             {
                 for (var row = 0; row < rows; row++)
                 {
-                    var posX = HalfElementSize * column;
-                    var posY = HalfElementSize * row;
-
-                    _gridElements[column, row] = new GridCellData(
-                        new Vector2Int(column, row),
-                        new Vector3(posX, posY, 0), 
-                        column + row);
+                    InitializeCell(column, row);
                 }
             }
         }
 
-        public GridCellData GetGridCellData(Vector2Int cellPosition)
+        private void InitializeCell(int column, int row)
         {
-            return _gridElements[cellPosition.x, cellPosition.y];
+            var posX = HalfElementSize * column;
+            var posY = HalfElementSize * row;
+
+            _gridElements[column, row] = new GridCellData(
+                new Vector2Int(column, row),
+                new Vector3(posX, posY, 0), 
+                column + row);
         }
 
-        public UniTask ArrangeBlockAsync(BlockItemPoolObject currentBlock, Vector2Int newGridPosition)
+        public GridCellData GetGridCellData(int cellPositionX, int cellPositionY)
         {
-            return currentBlock.ArrangeAsync(_gridElements[newGridPosition.x, newGridPosition.y]);
+            return _gridElements[cellPositionX, cellPositionY];
+        }
+
+        public UniTask ArrangeBlockAsync(
+            BlockItemPoolObject currentBlock,
+            Vector2Int newGridPosition,
+            CancellationTokenSource cancellationTokenSource)
+        {
+            return currentBlock.ArrangeAsync(_gridElements[newGridPosition.x, newGridPosition.y], cancellationTokenSource);
         }
     }
 }
