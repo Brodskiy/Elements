@@ -36,7 +36,7 @@ Adding new levels:
    - "Columns" - columns count;
    - "Rows" - rows count;
    - "Block Datas" - block ScriptableObject
-     !!!Enter an array of values starting at the\n lower left corner and moving upward.!!!
+     !!!Enter an array of values starting at the lower left corner and moving upward.!!!
 <img width="416" alt="image" src="https://github.com/Brodskiy/Elements/assets/27737492/524c60bc-9373-47d6-9f01-20fb399337f7">
 
 
