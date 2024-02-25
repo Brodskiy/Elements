@@ -44,10 +44,15 @@ namespace Modules.Gameplay.Scripts.GameElement.PoolObjects
             _isMove = Vector3.Distance(transform.localPosition, _newCellPosition) > DistanceDelta;
         }
 
-        public void ShowAnimation(AnimatorController animatorController)
+        public void PlayAnimation(AnimatorController animatorController)
         {
             _animator.runtimeAnimatorController = animatorController;
             _animator.Play(StartAnimation, 0, Random.Range(0, 1f));
+        }
+
+        public void StopAnimation()
+        {
+            _isMove = false;
         }
 
         public void Initialize(GridCellData gridCellData, int blockId)
@@ -58,20 +63,20 @@ namespace Modules.Gameplay.Scripts.GameElement.PoolObjects
             CellPosition = gridCellData.GridPosition;
         }
 
-        public UniTask ArrangeAsync(GridCellData gridCellData)
+        public UniTask ArrangeAsync(GridCellData gridCellData, CancellationTokenSource cancellationTokenSource)
         {
             _newCellPosition = gridCellData.Position;
             _spriteRenderer.sortingOrder = gridCellData.Layer;
             CellPosition = gridCellData.GridPosition;
             _isMove = true;
 
-            return UniTask.WaitUntil(() => _isMove == false);
+            return UniTask.WaitUntil(() => _isMove == false, cancellationToken: cancellationTokenSource.Token);
         }
 
         public async UniTask Deactivate(CancellationTokenSource cancellationTokenSource)
         {
             await _animator.PlayAsync(DestroyAnimationIndex, cancellationTokenSource.Token);
-
+           
             _animator.runtimeAnimatorController = null;
             _spriteRenderer.sprite = null;
         }

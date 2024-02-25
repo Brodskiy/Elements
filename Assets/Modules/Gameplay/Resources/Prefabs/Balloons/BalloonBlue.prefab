@@ -97,6 +97,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5e4f5f561f143f7980eb0fc21600cf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amplitude: 1
-  frequency: 1
-  speed: 1
+  _speedRange: {x: 0.3, y: 1.5}
+  _heightOccurrenceRange: {x: 0, y: 3}
+  _amplitudeRange: {x: 0.6, y: 1.5}
+  _frequencyRange: {x: 1, y: 2}
+  _withRotation: 1
+  _rotationRange: {x: 2, y: 10}

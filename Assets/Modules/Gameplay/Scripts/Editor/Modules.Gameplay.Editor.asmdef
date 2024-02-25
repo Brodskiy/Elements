@@ -1,0 +1,4 @@
+{
+  "name": "Modules.Gameplay.Editor",
+  "references":[ "GUID:23ef32a7d1d14bc9b453fc6fecb007c4" ]
+}
