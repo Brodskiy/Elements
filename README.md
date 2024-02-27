@@ -1,5 +1,5 @@
 # Description
-This project is an Elements game developed as part of a test job "https://docs.google.com/document/d/18Da2pMWS0g-YczhCYPDZDKoXbEIo4qvG-qTU9SKuUho/edit" for a Unity developer position. The game mechanics resemble the classic match3 genre, but with unique features such as the ability to move blocks in any direction in a single turn and a system to normalize the field after shifting and destroying blocks.
+This project is an Elements game developed as part of a test job for a Unity developer position. The game mechanics resemble the classic match3 genre, but with unique features such as the ability to move blocks in any direction in a single turn and a system to normalize the field after shifting and destroying blocks.
 
 Startup instructions:
 1. Clone the repository using the command: [git clone https://github.com/your_username/elements_game.git](https://github.com/Brodskiy/Elements.git)
