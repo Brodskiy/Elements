@@ -1,5 +1,5 @@
 # Description
-This project is an Elements game developed as part of a test job "https://docs.google.com/document/d/18Da2pMWS0g-YczhCYPDZDKoXbEIo4qvG-qTU9SKuUho/edit" for a Unity developer position. The game mechanics resemble the classic match3 genre, but with unique features such as the ability to move blocks in any direction in a single turn and a system to normalize the field after shifting and destroying blocks.
+This project is an Elements game developed as part of a test job for a Unity developer position. The game mechanics resemble the classic match3 genre, but with unique features such as the ability to move blocks in any direction in a single turn and a system to normalize the field after shifting and destroying blocks.
 
 Startup instructions:
 1. Clone the repository using the command: [git clone https://github.com/your_username/elements_game.git](https://github.com/Brodskiy/Elements.git)
@@ -36,7 +36,7 @@ Adding new levels:
    - "Columns" - columns count;
    - "Rows" - rows count;
    - "Block Datas" - block ScriptableObject
-     !!!Enter an array of values starting at the\n lower left corner and moving upward.!!!
+     !!!Enter an array of values starting at the lower left corner and moving upward.!!!
 <img width="416" alt="image" src="https://github.com/Brodskiy/Elements/assets/27737492/524c60bc-9373-47d6-9f01-20fb399337f7">
 
 
