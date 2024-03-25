@@ -24,7 +24,7 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
 
         public Transform ContainerForBlocks => View.BlocksContainer;
 
-        protected override string ViewPrefabName => AssetResources.GameAreaGridPrefabPath;
+        protected override string PrefabName => AssetResources.GameAreaGridPrefabPath;
 
         private BlocksGrid _blocksGrid;
         private BlocksContainer _blocksContainer;

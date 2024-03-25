@@ -10,7 +10,7 @@ namespace Modules.Gameplay.Scripts.GameAreaMenu.Implementation
         public event UnityAction RestartButtonClicked;
         public event UnityAction NextButtonClicked;
 
-        protected override string ViewPrefabName => AssetResources.GameAreaMenuPrefabPath;
+        protected override string PrefabName => AssetResources.GameAreaMenuPrefabPath;
 
         protected override void DoShow()
         {

@@ -9,12 +9,12 @@ namespace Core.MVC.Implementation
     public abstract class Controller<TView> : IInitialization, IDisposable
         where TView : View
     {
-        protected abstract string ViewPrefabName { get; }
+        protected abstract string PrefabName { get; }
         protected TView View { get; private set; }
 
         public UniTask InitializeAsync()
         {
-            var viewPref = Resources.Load<TView>(ViewPrefabName);
+            var viewPref = Resources.Load<TView>(PrefabName);
             View = Object.Instantiate(viewPref);
             View.name = viewPref.name;
 

@@ -17,6 +17,7 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation
         {
             _blocksGrid = new BlockItemPoolObject[columns, rows];
             _fallenBlocksHelper = new FallenBlocksHelper(_blocksGrid);
+            _destroyBlocksHelper = new DestroyBlocksHelper(_blocksGrid);
         }
 
         public void AddBlock(BlockItemPoolObject block)

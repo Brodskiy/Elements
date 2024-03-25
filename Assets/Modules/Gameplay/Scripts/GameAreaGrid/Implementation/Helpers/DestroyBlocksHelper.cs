@@ -9,6 +9,11 @@ namespace Modules.Gameplay.Scripts.GameAreaGrid.Implementation.Helpers
         private readonly BlockItemPoolObject[,] _blocksGrid;
         private List<BlockItemPoolObject> _alteredBlocks;
 
+        public DestroyBlocksHelper(BlockItemPoolObject[,] blocksGrid)
+        {
+            _blocksGrid = blocksGrid;
+        }
+
         public List<BlockItemPoolObject> GetDestructibleBlocks()
         {
             _alteredBlocks = new List<BlockItemPoolObject>();
