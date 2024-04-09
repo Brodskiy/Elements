@@ -43,20 +43,12 @@ namespace Modules.Gameplay.Scripts.RootService
 
         private UniTask SpawnPoolObjectsAsync()
         {
-            var balloonBluePrefab = Resources.Load<BalloonItemPoolObject>(AssetResources.BalloonBluePrefabPath);
-            var balloonOrangePrefab = Resources.Load<BalloonItemPoolObject>(AssetResources.BalloonOrangePrefabPath);
             var blockPrefab = Resources.Load<BlockItemPoolObject>(AssetResources.BlockPrefabPath);
-            var tasks = new List<UniTask>
-            {
-                _spawnFactoryService.SpawnAsync(balloonBluePrefab, SettingConstants.BalloonDefaultPoolObjectSize),
-                _spawnFactoryService.SpawnAsync(balloonOrangePrefab, SettingConstants.BalloonDefaultPoolObjectSize),
-                _spawnFactoryService.SpawnAsync(
-                    blockPrefab,
-                    _gameAreaGrid.ContainerForBlocks,
-                    SettingConstants.BlocksDefaultPoolObjectSize)
-            };
 
-            return UniTask.WhenAll(tasks);
+            return _spawnFactoryService.SpawnAsync(
+                blockPrefab,
+                _gameAreaGrid.ContainerForBlocks,
+                SettingConstants.BlocksDefaultPoolObjectSize);
         }
 
         private void SubscribeToEvents()
